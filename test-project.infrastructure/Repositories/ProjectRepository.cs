@@ -30,7 +30,7 @@ namespace testproject.infrastructure.Repositories
 
         public IEnumerable<Project> GetAll() => db.Projects;
 
-        public IPagedList<Project> GetAllIndex(int pageNumber, int pageSize, string search) => db.Projects.Include(e => e.EmployeeProjects)
+        public IPagedList<Project> GetAllIndex(int pageNumber, int pageSize, string search) => db.Projects
             .Where(x => x.Name.Contains(search) || search == null).OrderBy(x => x.Name).ToPagedList(pageNumber, pageSize);
 
         public async Task<Project> GetAsync(Guid? id) => await db.Projects.FindAsync(id);

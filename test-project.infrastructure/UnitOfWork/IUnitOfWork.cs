@@ -11,7 +11,7 @@ namespace testproject.infrastructure.UnitOfWork
     {
         EmployeeRepository Employees { get; }
         ProjectRepository Projects { get; }
-        EmployeeProjectRepository EmployeeProjects { get; }
+       // EmployeeProjectRepository EmployeeProjects { get; }
         void Save();
         Task SaveAsync();
     }

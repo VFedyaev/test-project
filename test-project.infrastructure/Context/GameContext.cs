@@ -18,8 +18,16 @@ namespace testproject.infrastructure.Context
 
         public GameContext(string connectionString) : base(connectionString) { }
 
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Project>().HasMany(c => c.Employees)
+                .WithMany(s => s.Projects)
+                .Map(t => t.MapLeftKey("PId")
+                .MapRightKey("EId")
+                .ToTable("ProjectEmployee"));
+        }
+
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Project> Projects { get; set; }
-        public DbSet<EmployeeProject> EmployeeProjects { get; set; }
     }
 }

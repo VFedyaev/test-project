@@ -12,7 +12,7 @@ namespace testproject.infrastructure.UnitOfWork
     {
         private GameContext db;
 
-        private EmployeeProjectRepository employeeProjectRepository;
+      //  private EmployeeProjectRepository employeeProjectRepository;
         private EmployeeRepository employeeRepository;
         private ProjectRepository projectRepository;
 
@@ -27,15 +27,15 @@ namespace testproject.infrastructure.UnitOfWork
             db = new GameContext(connectionString);
         }
 
-        public EmployeeProjectRepository EmployeeProjects
-        {
-            get
-            {
-                if (employeeProjectRepository == null)
-                    employeeProjectRepository = new EmployeeProjectRepository(db);
-                return employeeProjectRepository;
-            }
-        }
+        //public EmployeeProjectRepository EmployeeProjects
+        //{
+        //    get
+        //    {
+        //        if (employeeProjectRepository == null)
+        //            employeeProjectRepository = new EmployeeProjectRepository(db);
+        //        return employeeProjectRepository;
+        //    }
+        //}
 
         public EmployeeRepository Employees
         {

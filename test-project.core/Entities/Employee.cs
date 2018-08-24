@@ -1,16 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace testproject.core.Entities
 {
     public class Employee
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
+        [Key]
+        public Guid EId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Patronymic { get; set; }
         public string Email { get; set; }
-        public Guid? EmployeeProjectId { get; set; }
-        public ICollection<EmployeeProject> EmployeeProjects { get; set; }
+        public virtual ICollection<Project> Projects { get; set; }
+
+        public Employee()
+        {
+            Projects = new List<Project>();
+        }
     }
 }

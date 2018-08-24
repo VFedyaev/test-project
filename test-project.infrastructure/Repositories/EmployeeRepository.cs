@@ -28,9 +28,9 @@ namespace testproject.infrastructure.Repositories
 
         public Employee Get(Guid id) => db.Employees.Find(id);
 
-        public IEnumerable<Employee> GetAll() => db.Employees.Include(y=>y.EmployeeProjects);
+        public IEnumerable<Employee> GetAll() => db.Employees;
 
-        public IPagedList<Employee> GetAllIndex(int pageNumber, int pageSize, string search) => db.Employees.Include(x=>x.EmployeeProjects).Where(emp => emp.FirstName.Contains(search) || search == null).
+        public IPagedList<Employee> GetAllIndex(int pageNumber, int pageSize, string search) => db.Employees.Where(emp => emp.FirstName.Contains(search) || search == null).
                                                                             OrderBy(n => n.FirstName).ToPagedList(pageNumber, pageSize);
 
         public async Task<Employee> GetAsync(Guid? id) => await db.Employees.FindAsync(id);

@@ -114,7 +114,7 @@ namespace test_project.Controllers
         public ActionResult DeleteConfirmed(Guid id)
         {
             Employee employee = db.Employees.Get(id);
-            db.Employees.Delete(employee.Id);
+            db.Employees.Delete(employee.EId);
             db.Save();
             return RedirectToAction("Index");
         }
