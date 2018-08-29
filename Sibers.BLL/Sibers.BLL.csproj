@@ -40,6 +40,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -58,17 +61,24 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interfaces\IRepository.cs" />
-    <Compile Include="Interfaces\IUnitOfWork.cs" />
+    <Compile Include="BLLMapping.cs" />
+    <Compile Include="Infrastructure\ServiceModule.cs" />
+    <Compile Include="Interfaces\IEmployeeDtoService.cs" />
+    <Compile Include="Interfaces\IProjectDtoService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\EmployeeRepository.cs" />
-    <Compile Include="Repositories\ProjectRepository.cs" />
-    <Compile Include="Services\UnitOfWork.cs" />
+    <Compile Include="DTO\EmployeeDTO.cs" />
+    <Compile Include="DTO\ProjectDTO.cs" />
+    <Compile Include="ServiceModels\EmployeeDTOService.cs" />
+    <Compile Include="ServiceModels\ProjectDTOService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sibers.DAL\Sibers.DAL.csproj">
       <Project>{509b8c9c-b2c9-488c-bc91-f8d989a65713}</Project>
       <Name>Sibers.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sibers.Domain\Sibers.Domain.csproj">
+      <Project>{a83a23dd-069e-4c84-8d45-d51a0d57536a}</Project>
+      <Name>Sibers.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

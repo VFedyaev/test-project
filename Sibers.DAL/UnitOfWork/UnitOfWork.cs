@@ -1,10 +1,10 @@
-﻿using Sibers.BLL.Interfaces;
-using Sibers.BLL.Repositories;
+﻿using Sibers.DAL.Interfaces;
+using Sibers.DAL.Repositories;
 using Sibers.DAL.EF;
 using System;
 using System.Threading.Tasks;
 
-namespace Sibers.BLL.Services
+namespace Sibers.DAL.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {

@@ -1,8 +1,8 @@
-﻿using Sibers.BLL.Repositories;
+﻿using Sibers.DAL.Repositories;
 using System;
 using System.Threading.Tasks;
 
-namespace Sibers.BLL.Interfaces
+namespace Sibers.DAL.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {

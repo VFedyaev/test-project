@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using X.PagedList;
 
-namespace Sibers.BLL.Interfaces
+namespace Sibers.DAL.Interfaces
 {
     public interface IRepository<T> where T : class
     {

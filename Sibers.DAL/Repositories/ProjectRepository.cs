@@ -1,6 +1,6 @@
-﻿using Sibers.BLL.Interfaces;
+﻿using Sibers.DAL.Interfaces;
 using Sibers.DAL.EF;
-using Sibers.DAL.Entities;
+using Sibers.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using X.PagedList;
 
-namespace Sibers.BLL.Repositories
+namespace Sibers.DAL.Repositories
 {
     public class ProjectRepository : IRepository<Project>
     {

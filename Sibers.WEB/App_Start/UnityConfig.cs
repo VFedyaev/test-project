@@ -15,7 +15,7 @@ namespace Sibers.WEB
 
             // DI
 
-            container.RegisterType<IUnitOfWork, UnitOfWork>(new InjectionConstructor());
+            container.RegisterType<IUnitOfWork, UnitDTO>(new InjectionConstructor());
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
     }

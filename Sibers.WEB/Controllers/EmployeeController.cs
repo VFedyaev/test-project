@@ -10,12 +10,13 @@ namespace Sibers.WEB.Controllers
 {
     public class EmployeeController : Controller
     {
-        IUnitOfWork db;
-        public EmployeeController(IUnitOfWork context) => this.db = context;
+        //IUnitOfWork db;
+        //public EmployeeController(IUnitOfWork context) => this.db = context;
         // GET: Employee
         public ActionResult Index()
         {
-            return View(db.Employees.GetAll().ToList());
+            //return View(db.Employees.GetAll().ToList());
+            return View();
         }
     }
 }

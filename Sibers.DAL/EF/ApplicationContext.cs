@@ -1,4 +1,4 @@
-﻿using Sibers.DAL.Entities;
+﻿using Sibers.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -31,8 +31,8 @@ namespace Sibers.DAL.EF
         {
             modelBuilder.Entity<Project>().HasMany(c => c.Employees)
                 .WithMany(s => s.Projects)
-                .Map(t => t.MapLeftKey("Id") // project
-                .MapRightKey("Id") // employee
+                .Map(t => t.MapLeftKey("PId") // project
+                .MapRightKey("EId") // employee
                 .ToTable("ProjectEmployee"));
         }
     }
@@ -40,10 +40,10 @@ namespace Sibers.DAL.EF
     {
         protected override void Seed(ApplicationContext context)
         {
-            Employee s1 = new Employee { Id = Guid.NewGuid(), FirstName = "Егор", LastName = "Иванов" };
-            Employee s2 = new Employee { Id = Guid.NewGuid(), FirstName = "Мария", LastName = "Васильева" };
-            Employee s3 = new Employee { Id = Guid.NewGuid(), FirstName = "Олег", LastName = "Кузнецов" };
-            Employee s4 = new Employee { Id = Guid.NewGuid(), FirstName = "Ольга", LastName = "Петрова" };
+            Employee s1 = new Employee { EId = Guid.NewGuid(), FirstName = "Егор", LastName = "Иванов" };
+            Employee s2 = new Employee { EId = Guid.NewGuid(), FirstName = "Мария", LastName = "Васильева" };
+            Employee s3 = new Employee { EId = Guid.NewGuid(), FirstName = "Олег", LastName = "Кузнецов" };
+            Employee s4 = new Employee { EId = Guid.NewGuid(), FirstName = "Ольга", LastName = "Петрова" };
 
             context.Employees.Add(s1);
             context.Employees.Add(s2);
@@ -52,7 +52,7 @@ namespace Sibers.DAL.EF
 
             Project c1 = new Project
             {
-                Id = Guid.NewGuid(),
+                PId = Guid.NewGuid(),
                 ProjectName = "Операционные системы",
                 Employees = new List<Employee>() { s1, s2, s3 }
             };
