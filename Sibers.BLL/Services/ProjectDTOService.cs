@@ -1,16 +1,14 @@
 ﻿using AutoMapper;
 using Sibers.BLL.DTO;
 using Sibers.BLL.Interfaces;
-using Sibers.DAL.Entities;
-using Sibers.DAL.Interfaces;
+using Sibers.Domain.Entities;
+using Sibers.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using X.PagedList;
 
-namespace Sibers.BLL.ServiceModels
+namespace Sibers.BLL.Services
 {
     public class ProjectDTOService : IProjectDtoService
     {
@@ -20,13 +18,28 @@ namespace Sibers.BLL.ServiceModels
         {
             _unitOfWork = uow;
         }
-        public void AddProject(ProjectDTO projectDTO)
+        public void AddProject(ProjectDTO projectDTO, Guid[] selectedEmployees)
         {
             Project project = Mapper.Map<ProjectDTO, Project>(projectDTO);
+            if (selectedEmployees != null)
+            {
+                project.Employees = new List<Employee>();
+                //получаем выбранные курсы
+                foreach (var c in _unitOfWork.Employees.GetAll().Where(co => selectedEmployees.Contains(co.EId)))
+                {
+                    project.Employees.Add(c);
+                }
+            }
             _unitOfWork.Projects.Create(project);
             _unitOfWork.Save();
         }
 
+        public IEnumerable<EmployeeDTO> GetSelectedEmployees()
+        {
+            var project = _unitOfWork.Employees.GetAll().ToList();
+
+            return Mapper.Map<List<Employee>, List<EmployeeDTO>>(project);
+        }
         public void DeleteProject(ProjectDTO projectDTO)
         {
             Project project = Mapper.Map<ProjectDTO, Project>(projectDTO);
@@ -55,11 +68,11 @@ namespace Sibers.BLL.ServiceModels
 
         public IPagedList<ProjectDTO> GetAllIndex(int pageNumber, int pageSize, string search)
         {
-            var project = _unitOfWork.Projects.GetAllIndex(pageNumber, pageSize, search);
-            return Mapper.Map<IPagedList<Project>, IPagedList<ProjectDTO>>(project.ToPagedList(pageNumber, pageSize));
+            var project = _unitOfWork.Projects.GetAll().Where(x=>x.ProjectName.Contains(search) || search == null).ToPagedList(pageNumber, pageSize);
+            return Mapper.Map<IPagedList<Project>, IPagedList<ProjectDTO>>(project);
         }
 
-        public void UpdateProject(ProjectDTO projectDTO)
+        public void UpdateProject(ProjectDTO projectDTO, Guid[] selectedEmployees)
         {
             Project project = Mapper.Map<ProjectDTO, Project>(projectDTO);
             _unitOfWork.Projects.Update(project);

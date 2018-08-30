@@ -11,13 +11,13 @@ namespace Sibers.BLL.Interfaces
     public interface IEmployeeDtoService
     {
         // Get all 
-        IEnumerable<EmployeeDTO> GetAll();
+        IEnumerable<EmployeeDTO> GetAllEmployees();
+        IEnumerable<ProjectDTO> GetSelectedProjects(EmployeeDTO employeeDTO);
         IPagedList<EmployeeDTO> GetAllIndex(int pageNumber, int pageSize, string search);
-        
         EmployeeDTO Get(Guid id);
-        void AddEmployee(EmployeeDTO employeeDTO);
+        void AddEmployee(EmployeeDTO employeeDTO, Guid[] selectedProjects);
         void DeleteEmployee(EmployeeDTO employeeDTO);
-        void UpdateEmployee(EmployeeDTO employeeDTO);
+        void UpdateEmployee(EmployeeDTO employeeDTO, Guid[] selectedProjects);
         void Dispose();
     }
 }

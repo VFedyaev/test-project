@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AutoMapper;
+using Sibers.BLL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -16,8 +18,23 @@ namespace Sibers.WEB
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            // Register Unity Dependency Injection
+            AutoMapperConfiguration.Configure();
             UnityConfig.RegisterComponents();
+        }
+
+        public class AutoMapperConfiguration
+        {
+            public static void Configure()
+            {
+                Mapper.Initialize(x =>
+                {
+                    x.AllowNullCollections = true;
+                    x.AddProfile<BLLMapping>();
+                    x.AddProfile<WEBMapping>();
+                });
+
+                Mapper.Configuration.AssertConfigurationIsValid();
+            }
         }
     }
 }

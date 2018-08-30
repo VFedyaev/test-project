@@ -10,12 +10,12 @@ namespace Sibers.BLL.Interfaces
     {
         // Get all 
         IEnumerable<ProjectDTO> GetAll();
+        IEnumerable<EmployeeDTO> GetSelectedEmployees();
         IPagedList<ProjectDTO> GetAllIndex(int pageNumber, int pageSize, string search);
-
         ProjectDTO Get(Guid id);
-        void AddProject(ProjectDTO projectDTO);
+        void AddProject(ProjectDTO projectDTO, Guid[] selectedEmployees);
         void DeleteProject(ProjectDTO projectDTO);
-        void UpdateProject(ProjectDTO projectDTO);
+        void UpdateProject(ProjectDTO projectDTO, Guid[] selectedEmployees);
         void Dispose();
     }
 }

@@ -1,5 +1,7 @@
 using Sibers.BLL.Interfaces;
 using Sibers.BLL.Services;
+using Sibers.DAL.Repositories;
+using Sibers.Domain.Interfaces;
 using System.Web.Mvc;
 using Unity;
 using Unity.Injection;
@@ -14,8 +16,11 @@ namespace Sibers.WEB
 			var container = new UnityContainer();
 
             // DI
+            container.RegisterType<IEmployeeDtoService, EmployeeDTOService>();
+            container.RegisterType<IProjectDtoService, ProjectDTOService>();
+            
+            container.RegisterType<IUnitOfWork, UnitOfWork>(new InjectionConstructor("ApplicationContext"));
 
-            container.RegisterType<IUnitOfWork, UnitDTO>(new InjectionConstructor());
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
     }
