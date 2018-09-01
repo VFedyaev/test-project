@@ -4,6 +4,7 @@ using Sibers.BLL.Interfaces;
 using Sibers.Domain.Entities;
 using Sibers.Domain.Interfaces;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using X.PagedList;
@@ -21,13 +22,13 @@ namespace Sibers.BLL.Services
         public void AddEmployee(EmployeeDTO employeeDTO, Guid[] selectedProjects)
         {
             Employee employee = Mapper.Map<EmployeeDTO, Employee>(employeeDTO);
-            //employee.Projects.Clear();
+            var projects = _unitOfWork.Projects.GetAll();
             if (selectedProjects != null)
             {
-                //получаем выбранные курсы
-                foreach (var c in _unitOfWork.Projects.GetAll().Where(co => selectedProjects.Contains(co.PId)))
+                employee.Projects = new List<Project>();
+                foreach (var project in projects.Where(x => selectedProjects.Contains(x.PId)))
                 {
-                    employee.Projects.Add(c);
+                    employee.Projects.Add(project);
                 }
             }
             _unitOfWork.Employees.Create(employee);
@@ -43,7 +44,7 @@ namespace Sibers.BLL.Services
             Save();
         }
 
-        public EmployeeDTO Get(Guid id)
+        public EmployeeDTO Get(Guid? id)
         {
             var employee = _unitOfWork.Employees.Get(id);
             return Mapper.Map<Employee, EmployeeDTO>(employee);
@@ -73,7 +74,6 @@ namespace Sibers.BLL.Services
             employee.Projects.Clear();
             if (selectedProjects != null)
             {
-                //получаем выбранные курсы
                 foreach (var c in _unitOfWork.Projects.GetAll().Where(co => selectedProjects.Contains(co.PId)))
                 {
                     employee.Projects.Add(c);
@@ -87,6 +87,7 @@ namespace Sibers.BLL.Services
         {
             Employee employee = Mapper.Map<EmployeeDTO, Employee>(employeeDTO);
             var selectedProjects = new List<Project>();
+
             foreach (var project in _unitOfWork.Projects.GetAll())
             {
                 foreach (var employeeProject in employeeDTO.Projects)
@@ -95,6 +96,11 @@ namespace Sibers.BLL.Services
                 }
             }
             return Mapper.Map<List<Project>, List<ProjectDTO>>(selectedProjects);
+        }
+        public IEnumerable<ProjectDTO> GetAllProjects()
+        {
+            var projects = _unitOfWork.Projects.GetAll().ToList();
+            return Mapper.Map<List<Project>, List<ProjectDTO>>(projects);
         }
     }
 }

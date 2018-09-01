@@ -13,8 +13,9 @@ namespace Sibers.BLL.Interfaces
         // Get all 
         IEnumerable<EmployeeDTO> GetAllEmployees();
         IEnumerable<ProjectDTO> GetSelectedProjects(EmployeeDTO employeeDTO);
+        IEnumerable<ProjectDTO> GetAllProjects();
         IPagedList<EmployeeDTO> GetAllIndex(int pageNumber, int pageSize, string search);
-        EmployeeDTO Get(Guid id);
+        EmployeeDTO Get(Guid? id);
         void AddEmployee(EmployeeDTO employeeDTO, Guid[] selectedProjects);
         void DeleteEmployee(EmployeeDTO employeeDTO);
         void UpdateEmployee(EmployeeDTO employeeDTO, Guid[] selectedProjects);

@@ -11,11 +11,11 @@ using Sibers.WEB.Models;
 
 namespace Sibers.WEB.Controllers
 {
-    public class EmployeeController : Controller
+    public class EmployeesController : Controller
     {
         public IEmployeeDtoService employeeDtoService;
 
-        public EmployeeController(IEmployeeDtoService employeeDtoServ)
+        public EmployeesController(IEmployeeDtoService employeeDtoServ)
         {
             employeeDtoService = employeeDtoServ;
         }
@@ -47,17 +47,17 @@ namespace Sibers.WEB.Controllers
             IEnumerable<ProjectDTO> projectDTOs = employeeDtoService.GetSelectedProjects(employeeDto);
             // Map DTO to ViewModel using Dtos data
             var projects = Mapper.Map<IEnumerable<ProjectDTO>, List<ProjectViewModel>>(projectDTOs);
-            ViewBag.Projects = employee.Projects;
+            ViewBag.Projects = projects;
             return View(employee);
         }
         
         // GET: Employee/Create
         public ActionResult Create()
         {
-            //IEnumerable<ProjectDTO> projectDTOs = employeeDtoService.GetSelectedProjects(employeeDto);
-            //// Map DTO to ViewModel using Dtos data
-            //var projects = Mapper.Map<IEnumerable<ProjectDTO>, List<ProjectViewModel>>(projectDTOs);
-            //ViewBag.Projects = projects;
+            IEnumerable<ProjectDTO> projectDTOs = employeeDtoService.GetAllProjects();
+            // Map DTO to ViewModel using Dtos data
+            var projects = Mapper.Map<IEnumerable<ProjectDTO>, List<ProjectViewModel>>(projectDTOs);
+            ViewBag.Projects = projects;
             return View();
         }
 
@@ -73,10 +73,47 @@ namespace Sibers.WEB.Controllers
                 employeeDtoService.AddEmployee(employeeDto, selectedProjects);
                 return RedirectToAction("Index");
             }
-            //IEnumerable<ProjectDTO> projectDTOs = employeeDtoService.GetSelectedProjects(employeeDto);
-            //// Map DTO to ViewModel using Dtos data
-            //var projects = Mapper.Map<IEnumerable<ProjectDTO>, List<ProjectViewModel>>(projectDTOs);
-            //ViewBag.Projects = projects;
+            IEnumerable<ProjectDTO> projectDTOs = employeeDtoService.GetAllProjects();
+            // Map DTO to ViewModel using Dtos data
+            var projects = Mapper.Map<IEnumerable<ProjectDTO>, List<ProjectViewModel>>(projectDTOs);
+            ViewBag.Projects = projects;
+            return View(employeeViewModel);
+        }
+
+        // GET: Employees/Edit/5
+        public ActionResult Edit(Guid? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            EmployeeDTO employeeDTO = employeeDtoService.Get(id);
+            var employee = Mapper.Map<EmployeeDTO, EmployeeViewModel>(employeeDTO);
+
+            if (employee == null)
+            {
+                return HttpNotFound();
+            }
+            IEnumerable<ProjectDTO> projectDTOs = employeeDtoService.GetSelectedProjects(employeeDTO);
+            // Map DTO to ViewModel using Dtos data
+            var projects = Mapper.Map<IEnumerable<ProjectDTO>, List<ProjectViewModel>>(projectDTOs);
+            ViewBag.Employees = projects.ToList();
+            return View(employee);
+        }
+
+        // POST: Employees/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(EmployeeViewModel employeeViewModel, Guid[] selectedProjects)
+        {
+            if (ModelState.IsValid)
+            {
+                EmployeeDTO employeeDTO = Mapper.Map<EmployeeViewModel, EmployeeDTO>(employeeViewModel);
+                employeeDtoService.UpdateEmployee(employeeDTO, selectedProjects);
+                return RedirectToAction("Index");
+            }
             return View(employeeViewModel);
         }
 

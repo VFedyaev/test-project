@@ -27,7 +27,7 @@ namespace Sibers.DAL.Repositories
             return DbSet;
         }
 
-        public T Get(Guid id)
+        public T Get(Guid? id)
         {
             return DbSet.Find(id);
         }

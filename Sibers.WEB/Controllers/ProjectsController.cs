@@ -56,7 +56,7 @@ namespace Sibers.WEB.Controllers
         // GET: Projects/Create
         public ActionResult Create()
         {
-            IEnumerable<EmployeeDTO> employeeDTOs = projectDtoService.GetSelectedEmployees();
+            IEnumerable<EmployeeDTO> employeeDTOs = projectDtoService.GetAllEmployees();
             // Map DTO to ViewModel using Dtos data
             var employees = Mapper.Map<IEnumerable<EmployeeDTO>, List<EmployeeViewModel>>(employeeDTOs);
             ViewBag.Employees = employees.ToList();
@@ -77,43 +77,49 @@ namespace Sibers.WEB.Controllers
                 projectDtoService.AddProject(projectDto, selectedEmployees);
                 return RedirectToAction("Index");
             }
-            IEnumerable<EmployeeDTO> employeeDTOs = projectDtoService.GetSelectedEmployees();
+            IEnumerable<EmployeeDTO> employeeDTOs = projectDtoService.GetAllEmployees();
             // Map DTO to ViewModel using Dtos data
             var employees = Mapper.Map<IEnumerable<EmployeeDTO>, List<EmployeeViewModel>>(employeeDTOs);
             ViewBag.Employees = employees.ToList();
             return View(projectViewModel);
         }
 
-        //// GET: Projects/Edit/5
-        //public ActionResult Edit(Guid? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    ProjectViewModel projectViewModel = db.ProjectViewModels.Find(id);
-        //    if (projectViewModel == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(projectViewModel);
-        //}
+        // GET: Projects/Edit/5
+        public ActionResult Edit(Guid? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ProjectDTO projectDto = projectDtoService.Get(id);
+            var project = Mapper.Map<ProjectDTO, ProjectViewModel>(projectDto);
 
-        //// POST: Projects/Edit/5
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit([Bind(Include = "PId,ProjectName,StartedDate,ReleaseDate")] ProjectViewModel projectViewModel)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Entry(projectViewModel).State = EntityState.Modified;
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View(projectViewModel);
-        //}
+            if (project == null)
+            {
+                return HttpNotFound();
+            }
+            IEnumerable<EmployeeDTO> employeeDTOs = projectDtoService.GetSelectedEmployees(projectDto);
+            // Map DTO to ViewModel using Dtos data
+            var employees = Mapper.Map<IEnumerable<EmployeeDTO>, List<EmployeeViewModel>>(employeeDTOs);
+            ViewBag.Employees = employees.ToList();
+            return View(project);
+        }
+
+        // POST: Projects/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(ProjectViewModel projectViewModel, Guid[] selectedEmployees)
+        {
+            if (ModelState.IsValid)
+            {
+                ProjectDTO projectDto = Mapper.Map<ProjectViewModel, ProjectDTO>(projectViewModel);
+                projectDtoService.UpdateProject(projectDto, selectedEmployees);
+                return RedirectToAction("Index");
+            }
+            return View(projectViewModel);
+        }
 
         // GET: Projects/Delete/5
         public ActionResult Delete(Guid id)

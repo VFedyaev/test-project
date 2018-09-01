@@ -34,7 +34,22 @@ namespace Sibers.BLL.Services
             _unitOfWork.Save();
         }
 
-        public IEnumerable<EmployeeDTO> GetSelectedEmployees()
+        public IEnumerable<EmployeeDTO> GetSelectedEmployees(ProjectDTO projectDTO)
+        {
+            Project project = Mapper.Map<ProjectDTO, Project>(projectDTO);
+            var selectedEmployees = new List<Employee>();
+
+            foreach (var employee in _unitOfWork.Employees.GetAll())
+            {
+                foreach (var employeeProject in projectDTO.Employees)
+                {
+                    if (employeeProject.EId == employee.EId) selectedEmployees.Add(employee);
+                }
+            }
+            return Mapper.Map<List<Employee>, List<EmployeeDTO>>(selectedEmployees);
+        }
+
+        public IEnumerable<EmployeeDTO> GetAllEmployees()
         {
             var project = _unitOfWork.Employees.GetAll().ToList();
 
@@ -54,7 +69,7 @@ namespace Sibers.BLL.Services
             _unitOfWork.Dispose();
         }
 
-        public ProjectDTO Get(Guid id)
+        public ProjectDTO Get(Guid? id)
         {
             var project = _unitOfWork.Projects.Get(id);
             return Mapper.Map<Project, ProjectDTO>(project);
