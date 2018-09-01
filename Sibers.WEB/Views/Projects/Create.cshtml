@@ -7,6 +7,7 @@
 
 <h2>Create</h2>
 
+
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
@@ -20,6 +21,30 @@
         <div class="col-md-10">
             @Html.EditorFor(model => model.ProjectName, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.ProjectName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Customer, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Customer, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Customer, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Perfomer, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Perfomer, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Perfomer, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ManagerId, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("ManagerId", null, "Выберите руководителя...", htmlAttributes: new { @class = "form-control", @required = "required" })
+            @Html.ValidationMessageFor(model => model.ManagerId, "", new { @class = "text-danger" })
         </div>
     </div>
 
@@ -38,22 +63,22 @@
             @Html.ValidationMessageFor(model => model.ReleaseDate, "", new { @class = "text-danger" })
         </div>
     </div>
-
-    <div class="editor-label"><b>Курсы</b></div>
-    @foreach (EmployeeViewModel p in ViewBag.Employees)
-    {
-        <input type="checkbox" name="selectedEmployees" value="@p.EId" />@p.FirstName <br />
-    }
-
-
     <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" />
+        <div class="editor-label"><b>Сотрудники</b></div>
+        @foreach (EmployeeViewModel p in ViewBag.Employees)
+        {
+            <input type="checkbox" name="selectedEmployees" value="@p.EId" />@p.FirstName <br />
+        }
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
         </div>
     </div>
-</div>
-}
+    </div>
+    }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+

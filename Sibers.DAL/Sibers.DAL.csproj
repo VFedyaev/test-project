@@ -57,6 +57,10 @@
     <Compile Include="Migrations\201808300416590_Init.Designer.cs">
       <DependentUpon>201808300416590_Init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809010936455_Update-Project-Table.cs" />
+    <Compile Include="Migrations\201809010936455_Update-Project-Table.Designer.cs">
+      <DependentUpon>201809010936455_Update-Project-Table.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />
@@ -75,6 +79,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201808300416590_Init.resx">
       <DependentUpon>201808300416590_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809010936455_Update-Project-Table.resx">
+      <DependentUpon>201809010936455_Update-Project-Table.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

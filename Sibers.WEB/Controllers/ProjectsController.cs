@@ -59,6 +59,7 @@ namespace Sibers.WEB.Controllers
             IEnumerable<EmployeeDTO> employeeDTOs = projectDtoService.GetAllEmployees();
             // Map DTO to ViewModel using Dtos data
             var employees = Mapper.Map<IEnumerable<EmployeeDTO>, List<EmployeeViewModel>>(employeeDTOs);
+            ViewBag.ManagerId = new SelectList(projectDtoService.GetAllEmployees(), "EId", "FirstName");
             ViewBag.Employees = employees.ToList();
             return View();
         }
@@ -77,6 +78,7 @@ namespace Sibers.WEB.Controllers
                 projectDtoService.AddProject(projectDto, selectedEmployees);
                 return RedirectToAction("Index");
             }
+            ViewBag.ManagerId = new SelectList(projectDtoService.GetAllEmployees(), "EId", "FirstName");
             IEnumerable<EmployeeDTO> employeeDTOs = projectDtoService.GetAllEmployees();
             // Map DTO to ViewModel using Dtos data
             var employees = Mapper.Map<IEnumerable<EmployeeDTO>, List<EmployeeViewModel>>(employeeDTOs);
@@ -98,6 +100,7 @@ namespace Sibers.WEB.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.ManagerId = new SelectList(projectDtoService.GetAllEmployees(), "EId", "FirstName", project.ManagerId);
             IEnumerable<EmployeeDTO> employeeDTOs = projectDtoService.GetSelectedEmployees(projectDto);
             // Map DTO to ViewModel using Dtos data
             var employees = Mapper.Map<IEnumerable<EmployeeDTO>, List<EmployeeViewModel>>(employeeDTOs);
@@ -118,6 +121,7 @@ namespace Sibers.WEB.Controllers
                 projectDtoService.UpdateProject(projectDto, selectedEmployees);
                 return RedirectToAction("Index");
             }
+            ViewBag.ManagerId = new SelectList(projectDtoService.GetAllEmployees(), "EId", "FirstName", projectViewModel.ManagerId);
             return View(projectViewModel);
         }
 

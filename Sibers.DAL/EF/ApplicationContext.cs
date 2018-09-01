@@ -27,10 +27,7 @@ namespace Sibers.DAL.EF
                 .MapRightKey("EId") // employee
                 .ToTable("ProjectEmployee"));
         }
-
-        public System.Data.Entity.DbSet<Sibers.WEB.Models.ProjectViewModel> ProjectViewModels { get; set; }
-
-        public System.Data.Entity.DbSet<Sibers.WEB.Models.EmployeeViewModel> EmployeeViewModels { get; set; }
+        
     }
 }
 
